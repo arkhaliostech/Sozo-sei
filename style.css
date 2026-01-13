@@ -83,12 +83,12 @@ body.dark {
 .theme-toggle-circle {
     width: 30px;
     height: 30px;
-    background: currentColor;
+    background:#d4c9b8 ;
     border-radius: 50%;
     transition: transform 0.3s;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items:center;
+    justify-content:center;
 }
 
 body.dark .theme-toggle-circle {
