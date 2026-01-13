@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sozo-sei</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="light">
+    <!-- Avatar - replace src with your image -->
+    <div class="avatar" id="avatar">
+        <img src="images/RussianArkhPFPMinecraft.png" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover; border: transparent;">
+    </div>
+    
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+        <div class="theme-toggle-circle">
+            ☀
+        </div>
+    </div>
+
+    <div class="container" id="mainContainer">
+        <!-- Mode Tabs -->
+        <div class="mode-tabs" id="modeTabs">
+            <div class="mode-tab">
+                FOCUS ⏱
+            </div>
+            <div class="mode-tab" onclick="openTaskPopup()">
+                TASK 📋
+            </div>
+            <div class="mode-tab" onclick="openMusicPopup()">
+                MUSIC 💿
+            </div>
+        </div>
+
+        <!-- Timer Display -->
+        <div class="timer" id="timer">25:00</div>
+        <div class="session-title" id="sessionTitle">Session 1</div>
+
+        <!-- Controls -->
+        <div class="controls" id="controls">
+            <button class="btn" id="startBtn" onclick="toggleTimer()">
+                ▶ START
+            </button>
+            <button class="btn stop" id="stopBtn" onclick="stopTimer()">
+                ⏹ STOP
+            </button>
+            <button class="btn reset" id="resetBtn" onclick="resetTimer()">
+                ↻ RESET
+            </button>
+            <button class="btn" onclick="openSettingsPopup()">
+                ⚙ SETTINGS
+            </button>
+            <button class="btn" onclick="toggleExpand()">
+                ⛶
+            </button>
+        </div>
+    </div>
+
+    <!-- Task Popup -->
+    <div class="popup" id="taskPopup">
+        <div class="popup-content">
+            <div class="popup-header">
+                <span>TASKS</span>
+                <span class="close-btn" onclick="closePopup('taskPopup')">×</span>
+            </div>
+            
+            <div class="task-tabs">
+                <div class="task-tab active" onclick="switchTaskTab('add')">ADD NEW</div>
+                <div class="task-tab" onclick="switchTaskTab('done')">DONE</div>
+            </div>
+
+            <!-- Add Task Section -->
+            <div class="task-section active" id="addSection">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="taskTitle" placeholder="Enter task title">
+                </div>
+                <div class="form-group">
+                    <label>Note</label>
+                    <textarea id="taskNote" placeholder="Add notes..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" id="taskDate">
+                </div>
+                <div class="form-group">
+                    <label>Priority</label>
+                    <div class="priority-group">
+                        <button class="priority-btn" data-priority="low" onclick="selectPriority('low')">LOW</button>
+                        <button class="priority-btn active" data-priority="medium" onclick="selectPriority('medium')">MEDIUM</button>
+                        <button class="priority-btn" data-priority="high" onclick="selectPriority('high')">HIGH</button>
+                    </div>
+                </div>
+                <button class="btn" style="width: 100%; justify-content: center; margin-top: 20px;" onclick="addTask()">
+                    ➕ ADD TASK
+                </button>
+            </div>
+
+            <!-- Done Section -->
+            <div class="task-section" id="doneSection">
+                <div id="doneList"></div>
+                <div class="empty-state" id="doneEmpty">No completed tasks yet!</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Music Popup -->
+    <div class="popup" id="musicPopup">
+        <div class="popup-content">
+            <div class="popup-header">
+                <span>MUSIC PLAYLIST</span>
+                <span class="close-btn" onclick="closePopup('musicPopup')">×</span>
+            </div>
+            <div class="music-list">
+                <div class="music-item" onclick="openSpotify('lofi')">
+                    <span>🎵 Lo-fi Beats</span>
+                    <span>→</span>
+                </div>
+                <div class="music-item" onclick="openSpotify('focus')">
+                    <span>🎵 Deep Focus</span>
+                    <span>→</span>
+                </div>
+                <div class="music-item" onclick="openSpotify('study')">
+                    <span>🎵 Study Music</span>
+                    <span>→</span>
+                </div>
+                <div class="music-item" onclick="openSpotify('ambient')">
+                    <span>🎵 Ambient Sounds</span>
+                    <span>→</span>
+                </div>
+                <div class="music-item" onclick="openSpotify('piano')">
+                    <span>🎵 Peaceful Piano</span>
+                    <span>→</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Popup -->
+    <div class="popup" id="settingsPopup">
+        <div class="popup-content">
+            <div class="popup-header">
+                <span>SETTINGS</span>
+                <span class="close-btn" onclick="closePopup('settingsPopup')">×</span>
+            </div>
+            
+            <div class="settings-group">
+                <label>Timer Mode</label>
+                <div class="priority-group">
+                    <button class="priority-btn active" id="focusModeBtn" onclick="setTimerMode('focus')">FOCUS</button>
+                    <button class="priority-btn" id="pomodoroModeBtn" onclick="setTimerMode('pomodoro')">POMODORO</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Number of Sessions</label>
+                <input type="number" id="sessionCount" value="4" min="1" max="10">
+            </div>
+
+            <div class="form-group">
+                <label>Duration</label>
+                <div class="duration-inputs">
+                    <div>
+                        <label style="font-size: 12px;">Minutes</label>
+                        <input type="number" id="durationMin" value="25" min="0" max="60">
+                    </div>
+                    <div>
+                        <label style="font-size: 12px;">Seconds</label>
+                        <input type="number" id="durationSec" value="0" min="0" max="59">
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn" style="width: 100%; justify-content: center; margin-top: 20px;" onclick="saveSettings()">
+                💾 SAVE SETTINGS
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
