@@ -9,6 +9,7 @@ let totalSessions = 4;
 let completedTasks = [];
 let currentPriority = 'medium';
 let currentTask = null;
+let isExpanded = false;
 
 function toggleTheme() {
     document.body.classList.toggle('dark');
@@ -25,20 +26,42 @@ function toggleExpand() {
     const container = document.getElementById('mainContainer');
     const avatar = document.getElementById('avatar');
     const themeToggle = document.getElementById('themeToggle');
+    const controls = document.getElementById('controls');
     
+    isExpanded = !isExpanded;
     container.classList.toggle('expanded');
     
     // Hide/show avatar and theme toggle
-    if (container.classList.contains('expanded')) {
+    if (isExpanded) {
         avatar.style.opacity = '0';
         avatar.style.visibility = 'hidden';
         themeToggle.style.opacity = '0';
         themeToggle.style.visibility = 'hidden';
+        
+        // Setup mouse move listener for bottom hover
+        document.addEventListener('mousemove', handleMouseMove);
     } else {
         avatar.style.opacity = '1';
         avatar.style.visibility = 'visible';
         themeToggle.style.opacity = '1';
         themeToggle.style.visibility = 'visible';
+        
+        // Remove mouse move listener
+        document.removeEventListener('mousemove', handleMouseMove);
+        controls.classList.remove('show');
+    }
+}
+
+function handleMouseMove(e) {
+    const controls = document.getElementById('controls');
+    const windowHeight = window.innerHeight;
+    const mouseY = e.clientY;
+    
+    // Show controls when mouse is in bottom 150px of screen
+    if (mouseY > windowHeight - 150) {
+        controls.classList.add('show');
+    } else {
+        controls.classList.remove('show');
     }
 }
 
