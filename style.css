@@ -54,11 +54,6 @@ body.dark {
     transition: opacity 0.3s, visibility 0.3s;
 }
 
-.container.expanded ~ .avatar {
-    opacity: 0;
-    visibility: hidden;
-}
-
 .theme-toggle {
     position: absolute;
     top: 20px;
@@ -73,11 +68,6 @@ body.dark {
     padding: 5px;
     border: 2px solid currentColor;
     transition: opacity 0.3s, visibility 0.3s;
-}
-
-.container.expanded ~ .theme-toggle {
-    opacity: 0;
-    visibility: hidden;
 }
 
 .theme-toggle-circle {
@@ -149,19 +139,25 @@ body.dark .timer {
     display: flex;
     gap: 15px;
     align-items: center;
-    transition: all 0.3s;
+    transition: all 0.3s ease-in-out;
 }
 
+/* Expanded mode - controls hidden by default */
 .container.expanded .controls {
     position: fixed;
-    bottom: -100px;
+    bottom: 40px;
     left: 50%;
-    transform: translateX(-50%);
-    transition: bottom 0.3s;
+    transform: translateX(-50%) translateY(150px);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s ease-in-out;
 }
 
-.container.expanded:hover .controls {
-    bottom: 40px;
+/* Show controls when hovering in expanded mode */
+.container.expanded .controls.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    pointer-events: all;
 }
 
 .btn {
@@ -326,7 +322,7 @@ body.dark .task-tab.active {
     cursor: pointer;
     font-weight: bold;
     color: currentColor;
-   font-family: 'Monocraft', monospace;
+    font-family: 'Monocraft', monospace;
 }
 
 .priority-btn.active {
@@ -410,4 +406,135 @@ body.dark .priority-btn.active {
     padding: 50px 20px;
     opacity: 0.5;
     font-style: italic;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .avatar {
+        width: 45px;
+        height: 45px;
+        top: 15px;
+        left: 15px;
+    }
+
+    .theme-toggle {
+        width: 65px;
+        height: 35px;
+        top: 15px;
+        right: 15px;
+    }
+
+    .theme-toggle-circle {
+        width: 25px;
+        height: 25px;
+    }
+
+    body.dark .theme-toggle-circle {
+        transform: translateX(30px);
+    }
+
+    .mode-tabs {
+        gap: 8px;
+        margin-bottom: 40px;
+        flex-wrap: wrap;
+    }
+
+    .mode-tab {
+        padding: 10px 20px;
+        font-size: 14px;
+        letter-spacing: 1px;
+    }
+
+    .timer {
+        font-size: 80px;
+        letter-spacing: 8px;
+        margin-bottom: 30px;
+    }
+
+    .session-title {
+        font-size: 18px;
+        margin-top: 20px;
+    }
+
+    .controls {
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .btn {
+        padding: 12px 20px;
+        font-size: 14px;
+        gap: 5px;
+    }
+
+    .container.expanded .controls.show {
+        bottom: 20px;
+    }
+
+    .popup-content {
+        padding: 25px;
+        max-height: 85vh;
+    }
+
+    .popup-header {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .task-tabs {
+        gap: 8px;
+        margin-bottom: 20px;
+    }
+
+    .task-tab {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .priority-btn {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .task-item {
+        padding: 15px;
+    }
+
+    .music-item {
+        padding: 15px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .timer {
+        font-size: 60px;
+        letter-spacing: 5px;
+    }
+
+    .mode-tab {
+        padding: 8px 15px;
+        font-size: 12px;
+    }
+
+    .btn {
+        padding: 10px 15px;
+        font-size: 12px;
+    }
+
+    .container.expanded {
+        padding-top: 10vh;
+    }
+
+    .session-title {
+        font-size: 16px;
+    }
 }
